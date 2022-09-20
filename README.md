@@ -8,21 +8,28 @@
   | ![](https://i.imgur.com/DDpA1WE.jpg) | ![](https://i.imgur.com/nXx1Klt.jpg) |
   | **Target mouth**                     | **Target nose**                      |
   | ![](https://i.imgur.com/EuLFjfk.jpg) | ![](https://i.imgur.com/HY91e6x.jpg) |
-
-
+  
+  
   ### Result
-  ![](https://i.imgur.com/XIBY50t.jpg)
-
+  
+  | 2D reconstruction                    | 3D reconstruction                           |
+  | ------------------------------------ | ------------------------------------------- |
+  | ![](https://i.imgur.com/XIBY50t.jpg) | ![](https://i.imgur.com/TbB2L0P.png =1025x) |
+  
+  | 
+  
+  
+  
   ---
   ## Environment settings
-
+  
   #### Install conda environment : 
   ```
   conda env create -f environment_organ_switch.yml
   ```
-
+  
   #### Download pretrained model from pixel2style2pixel : 
-
+  
   ```
   cd pixel2style2pixel
   wget --load-cookies /tmp/cookies.txt \
@@ -32,18 +39,18 @@
   ```
   * Remember to change the last line : `/path/to/directory/pixel2style2pixel/pretrained_models/psp_ffhq_encode.pt` 
   to the path of your psp directory.
-
+  
   #### Settings about gpu and cuda please refer to : [pixel2style2pixel](https://github.com/eladrich/pixel2style2pixel)
-
+  
   ---
-
+  
   ## Run organ switch
   * change the string `path` in `reconstruction.py` to your own target image directory.
-
+  
   ```
   python reconstruction.py
   ```
-
+  
   * The images in your directory should be strictly named as `face`、`nose`、`mouth`、`nose`. 
   * Different file extensions are allowed.
   * Result will be generated at : `path/result` .
