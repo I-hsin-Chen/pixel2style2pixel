@@ -1,4 +1,4 @@
-#modified from https://github.com/apple2373/mediapipe-facemesh
+# modified from https://github.com/apple2373/mediapipe-facemesh
 import os
 import json
 import cv2
