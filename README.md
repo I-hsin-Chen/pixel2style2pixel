@@ -12,9 +12,9 @@
   
     ### Result
   
-    | 2D reconstruction                    | 3D reconstruction                           |
-    | ------------------------------------ | ------------------------------------------- |
-    | ![](https://i.imgur.com/XIBY50t.jpg) | ![](https://i.imgur.com/TbB2L0P.png =1025x) |
+    | 2D reconstruction                    | 3D reconstruction                    |
+    | ------------------------------------ | ------------------------------------ |
+    | ![](https://i.imgur.com/XIBY50t.jpg) | ![](https://i.imgur.com/TbB2L0P.png) |
   
     
   
