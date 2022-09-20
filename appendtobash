@@ -1,0 +1,16 @@
+
+usegpu_f()
+{
+if [ -z "$1" ]; then
+  if [ -z "$CUDA_VISIBLE_DEVICES" ]; then
+    echo ALL GPU will be used.
+  else
+    echo current GPU: $CUDA_VISIBLE_DEVICES.
+  fi
+  return
+else
+  export CUDA_VISIBLE_DEVICES="$1"
+fi
+}
+export CUDA_DEVICE_ORDER=PCI_BUS_ID
+alias usegpu='usegpu_f'
