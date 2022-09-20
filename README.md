@@ -6,6 +6,7 @@
 
 #### Install conda environment : 
 ```
+cd environment
 conda env create -f environment_organ_switch.yml
 ```
 
