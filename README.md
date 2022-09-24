@@ -1,8 +1,10 @@
 * * # Organ switch : stylegan 五官更換器
+    
+    * Our work is mainly in directory "organ_switch" and "reconstruction.py"
 
     ## Example
 
-    ### Sources
+    #### Sources
     | Target face                          | Target eyes                          |
     | ------------------------------------ | ------------------------------------ |
     | ![](https://i.imgur.com/DDpA1WE.jpg) | ![](https://i.imgur.com/nXx1Klt.jpg) |
@@ -10,7 +12,7 @@
     | ![](https://i.imgur.com/EuLFjfk.jpg) | ![](https://i.imgur.com/HY91e6x.jpg) |
   
   
-    ### Result
+    #### Result
   
     | 2D reconstruction                    | 3D reconstruction                    |
     | ------------------------------------ | ------------------------------------ |
@@ -44,6 +46,7 @@
   
     ## Run organ switch
     * change the string `path` in `reconstruction.py` to your own target image directory.
+  
   
     ```
     python reconstruction.py
