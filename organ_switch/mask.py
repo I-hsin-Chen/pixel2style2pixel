@@ -113,7 +113,7 @@ def get_skin_mask(img):
 
 
 if __name__ == '__main__':
-    path = '/home/pc/face_study/exp/timg.jpg'
+    path = 'warping_sample/sample1/face.png'
     img = cv2.imread(path)
     mask = get_organ_mask(img, 'eye')
     cv2.imshow('a', mask)

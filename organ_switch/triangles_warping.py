@@ -6,25 +6,13 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import os
+from organ_switch.convex_warping import correct_colours
 
 def switch(base_image, target_image, Trilist, base_landmarks, target_landmarks):
 
     target_height,target_width,channels = base_image.shape
-
     warpped_destination = np.zeros((target_height, target_width, channels), np.uint8)
-    # base_results = face_mesh.process(cv2.cvtColor(base_image, cv2.COLOR_BGR2RGB))
-    # base_landmarks = base_results.multi_face_landmarks[0]
-
-    # target_results = face_mesh.process(cv2.cvtColor(target_image, cv2.COLOR_BGR2RGB))
-    # target_landmarks = target_results.multi_face_landmarks[0]
-
-    # if not target_results.multi_face_landmarks:
-    #     raise AssertionError("Failed to detect a face in given images")
-    # if len(target_results.multi_face_landmarks) >= 2:
-    #     raise AssertionError("Multiple faces detected in given images")
-
     lines_space_mask = np.zeros_like(cv2.cvtColor(target_image, cv2.COLOR_BGR2GRAY))
-    # lines_space_new_face = np.zeros_like(base_image)
 
     for tri in Trilist:
 
@@ -79,5 +67,7 @@ def switch(base_image, target_image, Trilist, base_landmarks, target_landmarks):
     img = cv2.cvtColor(warpped_destination, cv2.COLOR_BGR2GRAY)
     ret,mask = cv2.threshold(img,0,255,cv2.THRESH_BINARY_INV)
     paste_area = cv2.bitwise_and(base_image, base_image, mask=mask)
+    cv2.imwrite('mid_result/paste_area.png', paste_area)
+    cv2.imwrite('mid_result/warpped_destination.png', warpped_destination)
     result = cv2.add(paste_area, warpped_destination)
     return result

@@ -1,0 +1,6 @@
+conda install python=3.8.0
+pip install mediapipe opencv-python cmake
+conda install -c conda-forge dlib
+"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+pip install tensorflow scikit-image pyaml tqdm
+pip install ISR --no-deps

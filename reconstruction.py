@@ -19,7 +19,7 @@ import organ_switch.threedface as threedface
 import time
 
 # change "path" to the image directory
-path = "warping_sample/sample1"
+path = "warping_sample/sample3"
 eyes = False
 mouth = False
 nose = False
@@ -65,43 +65,47 @@ _, base_landmarks = convex_warping.read_landmarks(base_image)
 # Do convex_warping
 if eyes != False:
     rough_eye, eyes_landmarks = convex_warping.read_landmarks(eyes_image)
-    base_image = (convex_warping.swap_organ_speed_up(base_image, eyes_image, "eye", base_landmarks, eyes_landmarks)).astype(np.uint8)
+    base_image, correct_eye_image = convex_warping.swap_organ_speed_up(base_image, eyes_image, "eye", base_landmarks, eyes_landmarks)
 
 if nose != False:
     rough_nose, nose_landmarks = convex_warping.read_landmarks(nose_image)
-    base_image = (convex_warping.swap_organ_speed_up(base_image, nose_image, "nose", base_landmarks, nose_landmarks)).astype(np.uint8)
+    base_image, correct_nose_image = convex_warping.swap_organ_speed_up(base_image, nose_image, "nose", base_landmarks, nose_landmarks)
 
 if mouth != False:
     rough_mouth, mouth_landmarks = convex_warping.read_landmarks(mouth_image)
-    base_image = (convex_warping.swap_organ_speed_up(base_image, mouth_image, "mouth", base_landmarks, mouth_landmarks)).astype(np.uint8)
+    base_image, correct_mouth_image = convex_warping.swap_organ_speed_up(base_image, mouth_image, "mouth", base_landmarks, mouth_landmarks)
 
+after_cvx = base_image.copy()
 cvx1_time = time.time()
-cv2.imwrite(path + "/tmp2.png", base_image)
+cv2.imwrite(path + "/after_cvx.png", after_cvx)
 
 # and then do triangles warping
-rough_base, _ = convex_warping.read_landmarks(base_image)
+rough_base, landmarks_after_cvx = convex_warping.read_landmarks(base_image)
 if eyes != False:
     EyeTriList = LeftEyeTriList + RightEyeTriList
-    base_image = triangles_warping.switch(base_image, eyes_image, EyeTriList, rough_base, rough_eye)
+    rough_eye, eyes_landmarks = convex_warping.read_landmarks(correct_eye_image)
+    base_image = triangles_warping.switch(base_image, correct_eye_image, EyeTriList, rough_base, rough_eye)
 if nose != False:
-    base_image = triangles_warping.switch(base_image, nose_image, NoseTriList, rough_base, rough_nose)
+    rough_nose, nose_landmarks = convex_warping.read_landmarks(correct_nose_image)
+    base_image = triangles_warping.switch(base_image, correct_nose_image, NoseTriList, rough_base, rough_nose)
 if mouth != False:
-    base_image = triangles_warping.switch(base_image, mouth_image, MouthTriList, rough_base, rough_mouth)
+    rough_mouth, mouth_landmarks = convex_warping.read_landmarks(correct_mouth_image)
+    base_image = triangles_warping.switch(base_image, correct_mouth_image, MouthTriList, rough_base, rough_mouth)
 
 cv2.imwrite(path + "/result.png", base_image)
-cv2.imwrite(path + "/tmp.png", base_image)
+cv2.imwrite(path + "/after_tri.png", base_image)
 
 tri_time = time.time()
 
 # Input pixel2style2pixel ffhq_encoder
 reconstructed_image = ffhq_encoder.face_reconstruction(path + "/result.png", False)
 reconstructed_image.save(path + "/result.png")
+reconstructed_image.save("mid_result/after_psp.png")
 
 psp_time = time.time()
 
 # Do super resolution
 super_resolution.super_resolution(path + "/result.png")
-
 sr_time = time.time()
 
 # Do convex warping again
@@ -110,13 +114,13 @@ result_image = tmp_image
 _, target_landmarks = convex_warping.read_landmarks(reconstructed_image)
 
 if mouth != False:
-    result_image = (convex_warping.swap_organ_speed_up(result_image, reconstructed_image, "mouth", base_landmarks, target_landmarks)).astype(np.uint8)
+    result_image, _ = convex_warping.swap_organ_speed_up(result_image, reconstructed_image, "mouth", base_landmarks, target_landmarks)
 
 if eyes != False:
-    result_image = (convex_warping.swap_organ_speed_up(result_image, reconstructed_image, "eye", base_landmarks, target_landmarks)).astype(np.uint8)
+    result_image, _ = convex_warping.swap_organ_speed_up(result_image, reconstructed_image, "eye", base_landmarks, target_landmarks)
 
 if nose != False:
-    result_image = (convex_warping.swap_organ_speed_up(result_image, reconstructed_image, "nose", base_landmarks, target_landmarks)).astype(np.uint8)
+    result_image, _ = convex_warping.swap_organ_speed_up(result_image, reconstructed_image, "nose", base_landmarks, target_landmarks)
 
 # cv2.imwrite(path + "/tmp.png", result_image)
 
@@ -127,10 +131,10 @@ end = time.time()
 
 if time_cnt:
     print('The whole process completed in : ' + format(end - start) + " seconds.")
-    print(' file_time : ' + format(file_time - start) + ' s.')
-    print(' cvx1_time : ' + format(cvx1_time - file_time) + ' s.')
-    print(' tri_time : ' + format(tri_time - cvx1_time) + ' s.')
-    print(' psp_time : ' + format(psp_time - tri_time) + ' s.')
-    print(' sr_time : ' + format(sr_time - psp_time) + ' s.')
-    print(' cvx2_time : ' + format(td_time - sr_time) + ' s.')
-    print(' 3d_time : ' + format(end - td_time) + ' s.')
+    # print(' file_time : ' + format(file_time - start) + ' s.')
+    # print(' cvx1_time : ' + format(cvx1_time - file_time) + ' s.')
+    # print(' tri_time : ' + format(tri_time - cvx1_time) + ' s.')
+    # print(' psp_time : ' + format(psp_time - tri_time) + ' s.')
+    # print(' sr_time : ' + format(sr_time - psp_time) + ' s.')
+    # print(' cvx2_time : ' + format(td_time - sr_time) + ' s.')
+    # print(' 3d_time : ' + format(end - td_time) + ' s.')
