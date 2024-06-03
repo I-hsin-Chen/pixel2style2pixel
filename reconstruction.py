@@ -90,6 +90,7 @@ if __name__ == '__main__':
     result_image = triangle_all_organs(images, flags, tri_list, args.path)
     result_image = reconstruction2D(base_image, args.path)
     get_3dresults(result_image, args.path)
+    os.remove(args.path + "/result.png")
     
     end = time.time()
     print('The whole process completed in : ' + format(end - start) + " seconds.")
