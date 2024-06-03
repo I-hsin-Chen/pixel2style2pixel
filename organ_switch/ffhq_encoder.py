@@ -11,7 +11,7 @@ import numpy as np
 
 def run_alignment(image_path):
     from scripts.align_all_parallel import align_face
-    predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
+    predictor = dlib.shape_predictor("shape_predictor_81_face_landmarks.dat")
     aligned_image = align_face(filepath=image_path, predictor=predictor)
     
 #   print("Aligned image has shape: {}".format(aligned_image.size))
@@ -37,7 +37,7 @@ def run_on_batch(inputs, net, latent_mask=None):
     return result_batch
 
 
-def face_reconstruction(image_path, toonify):
+def face_reconstruction(image_path, toonify=False):
 
     tic = time.time()
 
@@ -65,8 +65,6 @@ def face_reconstruction(image_path, toonify):
 
     # Alignment
     tic = time.time()
-    original_image = Image.open(image_path)
-    original_image = original_image.convert("RGB")
     input_image = run_alignment(image_path)
     toc = time.time()
     # print('Alignment took {:.4f} seconds.'.format(toc - tic))

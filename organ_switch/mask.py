@@ -83,7 +83,7 @@ def get_organ_mask(img, tag):
 
 def get_organ_mask_mp(img, tag, landmarks):
     mask = np.zeros(img.shape[:2])
-    if tag == 'eye':
+    if tag == 'eyes':
         white = [LeftEye, RightEye]
     if tag == 'nose':
         white = [Nose]
