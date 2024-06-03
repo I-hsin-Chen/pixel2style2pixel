@@ -1,20 +1,14 @@
-from concurrent.futures.process import _system_limited
-from email.mime import base
-from re import X
-from tkinter.tix import Tree
-from unittest import result
 import cv2
-import mediapipe as mp
-import numpy as np
 import os
+import argparse
+import time
 import organ_switch.convex_warping as convex_warping
 import organ_switch.triangles_warping as triangles_warping
-import organ_switch.ffhq_encoder as ffhq_encoder
-import organ_switch.super_resolution as super_resolution
-import organ_switch.threedface as threedface
-import time
+from organ_switch.ffhq_encoder import face_reconstruction
+from organ_switch.super_resolution import super_resolution
+from organ_switch.threedface import get_3dresults
 from organ_switch.convex_warping import read_landmarks
-import argparse
+
 
 # ================== Load necessary files ==================
 def load_files(path):
@@ -67,9 +61,9 @@ def triangle_all_organs(images, flags, tri_list, path):
 # ================== pixel2style2pixel + Super resolution ==================
 def reconstruction2D(base_image, path):
     path = path + "/result.png"
-    reconstructed_image = ffhq_encoder.face_reconstruction(path)
+    reconstructed_image = face_reconstruction(path)
     reconstructed_image.save(path)
-    super_resolution.super_resolution(path)
+    super_resolution(path)
 
     reconstructed_image = cv2.imread(path)
     result_image = base_image.copy()
@@ -86,7 +80,7 @@ if __name__ == '__main__':
     start = time.time()
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('--path', type=str, help='Path to a directory containing images named face, eyes, mouth, nose')
+    parser.add_argument('--path', type=str, help='Path to a directory containing images named face, eyes, mouth, nose', required=True)
     args = parser.parse_args()
     
     images, flags, landmarks, tri_list = load_files(args.path)
@@ -95,7 +89,7 @@ if __name__ == '__main__':
     images, corrected_image = convex_all_organs(images, flags, landmarks)
     result_image = triangle_all_organs(images, flags, tri_list, args.path)
     result_image = reconstruction2D(base_image, args.path)
-    threedface.get_3dresults(result_image, args.path)
+    get_3dresults(result_image, args.path)
     
     end = time.time()
     print('The whole process completed in : ' + format(end - start) + " seconds.")
