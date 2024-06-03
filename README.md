@@ -1,6 +1,6 @@
 # Organ switch : stylegan 五官更換器
     
-* Our work is mainly in directory "organ_switch" and "reconstruction.py"
+* Our work is mainly in directory `organ_switch` and `reconstruction.py`
 
 ## Example
 
@@ -40,18 +40,15 @@ export=download&id=1bMTNWkh5LArlaWSc_wa8VKyq2V42T2z0' -O- | sed -rn 's/.*confirm
 * Remember to change the last line : `/path/to/directory/pixel2style2pixel/pretrained_models/psp_ffhq_encode.pt` 
 to the path of your psp directory.
 
-#### Settings about gpu and cuda please refer to : [pixel2style2pixel](https://github.com/eladrich/pixel2style2pixel)
+#### Settings about gpu please refer to : [pixel2style2pixel](https://github.com/eladrich/pixel2style2pixel)
 
 ---
 
 ## Run organ switch
-* change the string `path` in `reconstruction.py` to your own target image directory.
-
-
 ```
-python reconstruction.py
+python reconstruction.py --path <path_to_your_directory>
 ```
 
 * The images in your directory should be strictly named as `face`、`nose`、`mouth`、`nose`. 
 * Different file extensions are allowed.
-* Result will be generated at : `path/result` .
+* Result will be generated at : `<path_to_your_directory>/result` .
