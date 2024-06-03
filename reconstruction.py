@@ -19,7 +19,7 @@ import organ_switch.threedface as threedface
 import time
 
 # change "path" to the image directory
-path = "warping_sample/sample3"
+path = "warping_sample/sample4"
 eyes = False
 mouth = False
 nose = False
@@ -114,13 +114,13 @@ result_image = tmp_image
 _, target_landmarks = convex_warping.read_landmarks(reconstructed_image)
 
 if mouth != False:
-    result_image, _ = convex_warping.swap_organ_speed_up(result_image, reconstructed_image, "mouth", base_landmarks, target_landmarks)
+    result_image, _ = convex_warping.swap_organ_speed_up(result_image, reconstructed_image, "mouth", base_landmarks, target_landmarks, False)
 
 if eyes != False:
-    result_image, _ = convex_warping.swap_organ_speed_up(result_image, reconstructed_image, "eye", base_landmarks, target_landmarks)
+    result_image, _ = convex_warping.swap_organ_speed_up(result_image, reconstructed_image, "eye", base_landmarks, target_landmarks, False)
 
 if nose != False:
-    result_image, _ = convex_warping.swap_organ_speed_up(result_image, reconstructed_image, "nose", base_landmarks, target_landmarks)
+    result_image, _ = convex_warping.swap_organ_speed_up(result_image, reconstructed_image, "nose", base_landmarks, target_landmarks, False)
 
 # cv2.imwrite(path + "/tmp.png", result_image)
 

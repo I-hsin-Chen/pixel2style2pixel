@@ -54,8 +54,8 @@ def correct_colours(im1, im2, landmarks1):
 
 
     # Avoid divide-by-zero errors.
-    # im2_blur += (128 * (im2_blur <= 1.0)).astype(im2_blur.dtype)
-    im2_blur[im2_blur < 1] = 1
+    im2_blur += (128 * (im2_blur <= 1.0)).astype(im2_blur.dtype)
+    # im2_blur[im2_blur < 1] = 1
     correct_img = (im2.astype(np.float64) * im1_blur.astype(np.float64) / im2_blur.astype(np.float64))
     correct_img = np.clip(correct_img, 0, 255)
 
@@ -63,7 +63,7 @@ def correct_colours(im1, im2, landmarks1):
 
 
 # for speeding up
-def swap_organ_speed_up(source_path, target_path, tag, source_landmarks, target_landmarks):
+def swap_organ_speed_up(source_path, target_path, tag, source_landmarks, target_landmarks, color_correct=True):
 
     source = cv2.resize(source_path, (source_path.shape[1], source_path.shape[0]))
     landmark1 = source_landmarks
@@ -78,15 +78,17 @@ def swap_organ_speed_up(source_path, target_path, tag, source_landmarks, target_
                               axis=0)
 
     warp_target = warp_im(target, M, source.shape)
-    correct_target = correct_colours(source, warp_target, landmark1)
+    if color_correct:
+        correct_target = correct_colours(source, warp_target, landmark1)
+    else:
+        correct_target = warp_target
     output_img = source*(1.0-combined_mask) + correct_target * combined_mask
     
     import os
-    if tag == 'eye' and os.path.exists('mid_result/combined_mask.png') == False:
-        cv2.imwrite('mid_result/combined_mask.png', combined_mask * 255)
-        cv2.imwrite('mid_result/warp_target.png', warp_target.astype(np.uint8))
-        cv2.imwrite('mid_result/output_img.png', output_img.astype(np.uint8))
-        cv2.imwrite('mid_result/correct_target.png', correct_target.astype(np.uint8))
+    # cv2.imwrite('mid_result/combined_mask.png', combined_mask * 255)
+    # cv2.imwrite('mid_result/warp_target.png', warp_target.astype(np.uint8))
+    # cv2.imwrite('mid_result/output_img.png', output_img.astype(np.uint8))
+    # cv2.imwrite('mid_result/correct_target.png', correct_target.astype(np.uint8))
 
     return output_img.astype(np.uint8), correct_target.astype(np.uint8)
 
