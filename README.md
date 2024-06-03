@@ -2,6 +2,16 @@
     
 * Our work is mainly in directory `organ_switch` and `reconstruction.py`
 
+## Run organ switch
+```
+python reconstruction.py --path <path_to_your_directory>
+```
+
+* The images in your directory should be strictly named as `face`、`nose`、`mouth`、`nose`. 
+* Different file extensions are allowed.
+* Result will be generated at : `<path_to_your_directory>/result` .
+
+
 ## Example
 
 #### Sources
@@ -41,14 +51,3 @@ export=download&id=1bMTNWkh5LArlaWSc_wa8VKyq2V42T2z0' -O- | sed -rn 's/.*confirm
 to the path of your psp directory.
 
 #### Settings about gpu please refer to : [pixel2style2pixel](https://github.com/eladrich/pixel2style2pixel)
-
----
-
-## Run organ switch
-```
-python reconstruction.py --path <path_to_your_directory>
-```
-
-* The images in your directory should be strictly named as `face`、`nose`、`mouth`、`nose`. 
-* Different file extensions are allowed.
-* Result will be generated at : `<path_to_your_directory>/result` .
