@@ -1,7 +1,7 @@
 # Organ switch : stylegan 五官更換器
     
 * Our work is mainly in directory `organ_switch` and `reconstruction.py`
-* 
+
 ## Environment settings
 
 #### Install conda environment : 
